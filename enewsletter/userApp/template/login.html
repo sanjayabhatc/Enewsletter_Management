@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'userApp/title.jpeg' %}" type="image/x-icon">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <style>
+.navbar {
+    background-color: rgba(254, 253, 249, 255);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%; 
+    top: 0;
+    left: 0; 
+    z-index: 1000;
+}
+        
+        .navbar:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar-brand img {
+            height: 70px;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand img:hover {
+            transform: scale(1.1);
+        }
+        
+        .navbar-toggler {
+            border: none;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='%23333' class='bi bi-list' viewBox='0 0 16 16'%3e%3cpath fill-rule='evenodd' d='M2 4.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5zM2.5 7a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1H2.5zm-1 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5zm-1 2.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1H2.5a.5.5 0 0 0-.5.5z'/%3e%3c/svg%3e");
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333;
+            margin-right: 20px;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #007bff;
+        }
+        
+        body {
+            background-image: url("{% static 'userApp/maheimg.webp' %}"); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+            padding-top: 80px; 
+            padding-bottom: 80px; 
+        }
+        
+        
+        .form-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .form-box {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            transition: box-shadow 0.3s ease; /* Adding transition for box-shadow */
+        }
+        
+        .form-box:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+        }
+        
+        .form-group {
+            text-align: right;
+        }
+        
+        label {
+            color: #555;
+            display: block;
+            margin-bottom: .5rem;
+        }
+        
+        .form-control {
+            display: inline-block;
+            width: auto;
+            min-width: 75%;
+        }
+        </style>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'userApp/manipal.jpg' %}" height="70vw" alt="LOGO">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="{% url 'login_page' %}" id="loginTab">Login</a>
+                    <a class="nav-item nav-link" href="{% url 'signup' %}" id="signupTab">Signup</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="form-container">
+        <div class="form-box">
+            <form action="{% url 'check_data' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                <h1 class="text-center mb-4">Log In</h1> 
+                <div class="form-group row">
+                    <label for="username" class="col-sm-4 col-form-label text-left">Username</label>
+                    <div class="col-sm-8">
+                        {{ form.username }} 
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-4 col-form-label text-left">Password</label>
+                    <div class="col-sm-8">
+                        {{ form.password }}
+                    </div>
+                </div>
+                <div class="text-left">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>    
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script lang="JavaScript">
+        $(document).ready(function(){
+            $("#signupTab").on("click", function(){
+                window.location.href = "{% url 'signup' %}";
+            });
+            $("#loginTab").on("click", function(){
+                location.reload();
+            });
+        });
+    </script>
+</body>
+</html>

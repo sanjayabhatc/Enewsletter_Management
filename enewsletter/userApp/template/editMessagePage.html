@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Message</title>
+    {% load static %}
+    <link rel="icon" href="{%static 'userApp\title.jpeg'%}" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar {
+            background-color: rgba(254, 253, 249, 255);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%; 
+            top: 0;
+            left: 0; 
+            z-index: 1000;
+        }
+
+        .navbar:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-brand img {
+            height: 70px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand img:hover {
+            transform: scale(1.1);
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='%23333' class='bi bi-list' viewBox='0 0 16 16'%3e%3cpath fill-rule='evenodd' d='M2 4.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5zM2.5 7a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1H2.5zm-1 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5zm-1 2.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1H2.5a.5.5 0 0 0-.5.5z'/%3e%3c/svg%3e");
+        }
+
+        .navbar-nav .nav-link {
+            color: #333;
+            margin-right: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #007bff;
+        }
+
+        body {
+            background-image: url("{% static 'userApp/maheimg.webp' %}"); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+            padding-top: 200px; 
+            padding-bottom: 20px; 
+            border-radius: 15px; /* Rounded edges */
+            background-color: rgba(254, 253, 249, 255); /* Background color */
+        }
+
+        .btn-bookmark {
+            background-color: rgba(254, 253, 249, 255);
+        }
+
+        .navbar-brand img {
+            height: 70px; 
+        }
+
+        .btn-bookmark {
+            border-color: #FFA500; /* Saffron/Orange */
+            color: #FFA500; /* Saffron/Orange text */
+        }
+
+        .vertical-tabs {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            background-color: rgba(254, 253, 249, 255);
+            border-radius: 15px; /* Rounded edges */
+            padding: 20px; /* Padding */
+        }
+
+        .vertical-tabs .nav-link {
+            color: #FFA500;
+            border-color: #FFA500;
+        }
+
+        .container {
+            border-radius: 15px; /* Rounded edges */
+            background-color: rgba(254, 253, 249, 255); /* Background color */
+            padding: 20px; /* Padding */
+        }
+
+        .table {
+            border-radius: 15px; /* Rounded edges */
+            background-color: rgba(254, 253, 249, 255); /* Background color */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#">
+            {% load static %}
+            <img src="{% static 'userApp/manipal.jpg' %}" height="70vw" alt="LOGO">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{% url 'adminPage' %}">Upload</a>
+                <a class="nav-item nav-link" href="{% url 'admin_inbox' %}">Admin Inbox</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}" id="logoutTab">Log Out</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 class="text-center my-4">Edit Message</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'update_newsletter' newsletter.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_title" class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" value="{{ newsletter.title }}" required>
+            </div>
+            <div class="form-group">
+                <label for="id_message" class="form-label">Message</label>
+                <textarea class="form-control" name="message" required>{{ newsletter.message }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="id_image" class="form-label">Image (optional)</label>
+                <input type="file" class="form-control-file" name="image">
+                {% if newsletter.image %}
+                <small>Current Image: <a href="{{ newsletter.image.url }}" target="_blank">View</a></small>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_image').change(function() {
+                var fileName = $(this).val().split('\\').pop();
+                $(this).next('.custom-file-label').text(fileName);
+            });
+            $('#logoutTab').on("click", function() {
+                window.location.href = "{% url 'logout' %}";
+            });
+        });
+    </script>
+</body>
+</html>
